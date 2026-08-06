@@ -1,190 +1,459 @@
-::selection{background:#3E4095;color:#fff}
-.js-header .head-main{background:linear-gradient(180deg,#1B1D45 0%,#141634 46%,#0F1029 100%)!important;border-bottom:0;position:relative;transition:background .3s;animation:dgDrop .6s ease both;box-shadow:0 14px 32px -22px rgba(0,0,0,.95)}
-.js-header .head-main::after{content:'';position:absolute;left:0;right:0;bottom:-3px;height:3px;background:linear-gradient(90deg,#0F1029,#3E4095 28%,#EC3237 50%,#3E4095 72%,#0F1029);background-size:220% 100%;animation:dgShift 8s linear infinite;box-shadow:0 0 10px rgba(236,50,55,.55);z-index:3}
-.sticky-header-wrapper{background:#0F1029}
-.js-header .head-main a,.js-header .head-main button,.js-header .head-main .header-icon{color:#fff}
-.js-header .head-main svg{fill:#fff;transition:transform .3s,fill .3s}
-.head-main .header-icon,.head-main .header-utility{position:relative}
-.head-main .header-icon::before,.head-main .header-utility::before{content:'';position:absolute;top:50%;left:50%;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:radial-gradient(circle,rgba(236,50,55,.4),rgba(236,50,55,0) 70%);transform:scale(0);transition:transform .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none}
-.head-main .header-icon:hover::before,.head-main .header-utility:hover::before{transform:scale(1)}
-.head-main .header-icon:hover svg,.head-main .header-utility:hover svg{transform:translateY(-2px) scale(1.12);fill:#fff}
-.logo-text{color:#fff!important;font-family:'Chakra Petch',sans-serif!important;font-weight:700;letter-spacing:1.5px;transition:letter-spacing .4s,text-shadow .4s}
-.logo-text-container:hover .logo-text{letter-spacing:2.6px;text-shadow:0 0 20px rgba(255,255,255,.45)}
-.logo-img{filter:brightness(1.22) contrast(1.05) drop-shadow(0 0 14px rgba(126,130,226,.45));transition:filter .35s}
-.logo-img-container:hover .logo-img{filter:brightness(1.38) drop-shadow(0 0 18px rgba(255,255,255,.5))}
-.nav-desktop-container a{color:#fff;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;font-size:13px;position:relative;transition:color .3s,text-shadow .3s}
-.nav-desktop-container a:hover{color:#fff;text-shadow:0 0 14px rgba(236,50,55,.85)}
-.nav-desktop-container .js-desktop-nav-col>div>a::after{content:'';position:absolute;left:0;bottom:-4px;height:3px;width:0;background:linear-gradient(90deg,#EC3237,#FF7A7E);box-shadow:0 0 8px rgba(236,50,55,.5);transition:width .3s}
-.nav-desktop-container .js-desktop-nav-col>div>a:hover::after{width:100%}
-.btn-primary{background:linear-gradient(135deg,#3E4095,#23255E)!important;border:0!important;color:#fff!important;font-weight:600;letter-spacing:.4px;transition:transform .3s,box-shadow .3s}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 30px -12px rgba(62,64,149,.55)}
-.btn-secondary{border:1.5px solid #3E4095!important;color:#3E4095!important;font-weight:600;transition:all .3s}
-.btn-secondary:hover{background:#3E4095!important;color:#fff!important}
-.heading-block,.page-header h1{font-family:'Chakra Petch',sans-serif;letter-spacing:.5px}
-.heading-block{color:#1C1E36}
-.product-item{background:#fff;border:1px solid #E3E5F0;border-radius:16px;overflow:hidden;transition:transform .35s,box-shadow .35s,border-color .35s}
-.product-item:hover{transform:translateY(-6px);border-color:#c9ccf0;box-shadow:0 20px 44px -20px rgba(35,37,94,.4)}
-.product-item-image-container img{transition:transform .65s ease}
-.product-item:hover .product-item-image-container img{transform:scale(1.06)}
-.product-item-information{padding:12px 14px 16px}
-.product-item-name{font-weight:600;color:#1C1E36}
-.product-item-price{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:18px;color:#3E4095}
-.product-item-price-compare{color:#9a9db8}
-.product-item-discount{background:#EC3237!important;color:#fff!important;border-radius:30px;padding:2px 9px;font-weight:700;font-size:12px}
-.labels .label{border-radius:30px;font-weight:700}
-.template-category .page-header{background:linear-gradient(120deg,#0F1029,#23255E 55%,#3E4095);padding:36px 0 32px;margin-bottom:10px}
-.template-category .page-header h1,.template-category .page-header .page-header-title-row{color:#fff}
-.template-category .products-grid{padding-top:10px}
-.section-category-hero img{border-radius:0 0 22px 22px}
-#nav-hamburger .modal-header,#modal-search .modal-header{background:#0F1029}
-#nav-hamburger .modal-header svg,#modal-search .modal-header svg{fill:#fff}
-#modal-search .modal-title{color:#fff;font-family:'Chakra Petch',sans-serif}
-#nav-hamburger .nav-item a{font-weight:600;color:#1C1E36}
-#nav-hamburger .nav-item a:hover{color:#3E4095}
-#nav-hamburger .modal-footer{background:#F3F4F9}
-.modal .btn-primary{border-radius:40px}
-.notification{background:#23255E;color:#fff}
-.notification a{color:#fff;text-decoration:underline}
+/* ==========================================================================
+   Digital Informatica - SKIN v4 "premium layer" (CDN / jsDelivr)
+   --------------------------------------------------------------------------
+   ESTA FOLHA E ADITIVA. A base visual (cores, tipografia, cards, header,
+   rodape, secoes) ja e entregue pelos CAMPOS de CSS do tema (bloco-01..13,
+   v4.4) e NAO se repete aqui.
 
-/* bloco-03-slideshow.css */
-#ns-section-slideshow .js-slideshow-container{margin:0;border-radius:0;overflow:hidden;box-shadow:none}
-#ns-section-slideshow .swiper-slide .media-visual{position:relative}
-#ns-section-slideshow .swiper-slide .media-visual img{width:100%;max-height:657px;object-fit:cover}
-#ns-section-slideshow .swiper-slide .media-visual::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(15,16,41,0) 38%,rgba(15,16,41,.66) 100%);pointer-events:none}
-#ns-section-slideshow .swiper-slide-active .media-visual img{animation:dgKen 9s ease-out forwards}
-#ns-section-slideshow .media-content-floating{z-index:2}
-#ns-section-slideshow .media-content-floating .heading-block{color:#fff;text-shadow:0 3px 22px rgba(15,16,41,.6);font-weight:700}
-#ns-section-slideshow .media-content-floating .text-content{color:#F3F4F9;text-shadow:0 2px 12px rgba(15,16,41,.65);font-weight:500}
-#ns-section-slideshow .media-content-floating .btn-primary:hover{box-shadow:0 14px 32px -10px rgba(236,50,55,.5)}
-#ns-section-slideshow .swiper-button-prev,#ns-section-slideshow .swiper-button-next{width:46px;height:46px;border-radius:50%;background:rgba(15,16,41,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:background .3s,transform .3s}
-#ns-section-slideshow .swiper-button-prev:hover,#ns-section-slideshow .swiper-button-next:hover{background:rgba(62,64,149,.8);transform:scale(1.08)}
-#ns-section-slideshow .slider-arrow{fill:#fff}
-#ns-section-slideshow .swiper-pagination-bullet{width:9px;height:9px;background:#c9ccf0;opacity:1;transition:all .3s}
-#ns-section-slideshow .swiper-pagination-bullet-active{width:30px;border-radius:6px;background:linear-gradient(90deg,#3E4095,#EC3237)}
-#ns-section-slideshow .swiper-fractions{font-family:'Chakra Petch',sans-serif;color:#fff;background:rgba(15,16,41,.45);border-radius:30px;padding:4px 12px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+   Aqui vive apenas a CAMADA DE ANIMACAO/DECORACAO que os campos nao aguentam
+   (sem sanitizador, sem limite de caracteres): var(), :has(), clamp(),
+   aspect-ratio, @keyframes, @media.
 
-/* bloco-04-categorias-imagens.css */
-#ns-section-featured_categories_images .category-item{text-align:center}
-#ns-section-featured_categories_images .category-item-image{border-radius:50%;overflow:hidden;border:3px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(135deg,#3E4095,#EC3237) border-box;transition:transform .35s,box-shadow .35s}
-#ns-section-featured_categories_images .category-item-image img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
-#ns-section-featured_categories_images .category-item:hover .category-item-image{box-shadow:0 16px 34px -16px rgba(62,64,149,.55)}
-#ns-section-featured_categories_images .category-item:hover .category-item-image img{transform:scale(1.1)}
-#ns-section-featured_categories_images .category-item-link{cursor:pointer}
-#ns-section-featured_categories_images .category-item .category-item-text{font-weight:600;color:#1C1E36;transition:color .3s}
-#ns-section-featured_categories_images .category-item:hover .category-item-text{color:#3E4095}
-#ns-section-featured_categories_images .heading-column .heading-block{color:#1C1E36}
-#ns-section-featured_categories_images .swiper-button-outside{background:#fff;border:1px solid #E3E5F0;border-radius:50%;transition:all .3s}
-#ns-section-featured_categories_images .swiper-button-outside:hover{background:#3E4095;border-color:#3E4095}
-#ns-section-featured_categories_images .swiper-button-outside:hover svg{fill:#fff}
+   REGRA DE OURO - ENHANCE ONLY: a skin chega TARDE (loader no rodape).
+   Nada aqui pode mudar tamanho, altura ou posicao de conteudo estatico ja
+   pintado. Somente pseudo-elementos, overlays absolutos, hovers, keyframes,
+   reveals e microinteracoes. Animar so transform/opacity (+box-shadow pontual).
 
-/* bloco-05-banners-2col.css */
-#ns-section-banners_two_columns .banner-block{position:relative;border-radius:20px;overflow:hidden;border:1.5px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(135deg,#E3E5F0,#E3E5F0) border-box;transition:transform .45s cubic-bezier(.22,.61,.36,1),box-shadow .45s}
-#ns-section-banners_two_columns .banner-block:hover{transform:translateY(-8px);background:linear-gradient(#fff,#fff) padding-box,linear-gradient(135deg,#3E4095,#EC3237) border-box;box-shadow:0 28px 56px -24px rgba(35,37,94,.5)}
-#ns-section-banners_two_columns .banner-block::before{content:'';position:absolute;top:12px;left:12px;width:26px;height:26px;border-top:2px solid #EC3237;border-left:2px solid #EC3237;border-radius:6px 0 0 0;opacity:0;transform:translate(10px,10px);transition:opacity .35s,transform .35s;z-index:3;pointer-events:none}
-#ns-section-banners_two_columns .banner-block::after{content:'';position:absolute;bottom:12px;right:12px;width:26px;height:26px;border-bottom:2px solid #EC3237;border-right:2px solid #EC3237;border-radius:0 0 6px 0;opacity:0;transform:translate(-10px,-10px);transition:opacity .35s,transform .35s;z-index:3;pointer-events:none}
-#ns-section-banners_two_columns .banner-block:hover::before,#ns-section-banners_two_columns .banner-block:hover::after{opacity:1;transform:translate(0,0)}
-#ns-section-banners_two_columns .banner-image-container{position:relative;overflow:hidden}
-#ns-section-banners_two_columns .banner-image-container::after{content:'';position:absolute;top:0;bottom:0;left:0;width:45%;background:linear-gradient(105deg,rgba(255,255,255,0),rgba(255,255,255,.42) 50%,rgba(255,255,255,0));transform:translateX(-150%) skewX(-16deg);transition:transform .8s ease;pointer-events:none;z-index:2}
-#ns-section-banners_two_columns .banner-block:hover .banner-image-container::after{transform:translateX(350%) skewX(-16deg)}
-#ns-section-banners_two_columns .banner-image-container img{width:100%;max-height:420px;object-fit:cover;transition:transform .8s cubic-bezier(.22,.61,.36,1),filter .5s ease}
-#ns-section-banners_two_columns .banner-block:hover .banner-image-container img{transform:scale(1.07);filter:saturate(1.12) brightness(1.03)}
-#ns-section-banners_two_columns .banner-block .heading-block{position:relative;font-weight:700;padding-bottom:10px;transition:color .3s}
-#ns-section-banners_two_columns .banner-block .heading-block::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:#EC3237;margin-right:9px;vertical-align:2px;animation:dgPulse 2.4s infinite}
-#ns-section-banners_two_columns .banner-block .heading-block::after{content:'';position:absolute;left:0;bottom:0;height:2px;width:34px;border-radius:2px;background:linear-gradient(90deg,#3E4095,#EC3237);transition:width .5s cubic-bezier(.22,.61,.36,1)}
-#ns-section-banners_two_columns .banner-block:hover .heading-block{color:#3E4095}
-#ns-section-banners_two_columns .banner-block:hover .heading-block::after{width:72%}
-#ns-section-banners_two_columns .banner-block .text-content{color:#5A5D7D;transition:color .3s}
-#ns-section-banners_two_columns .banner-block:hover .text-content{color:#3A3D5C}
-#ns-section-banners_two_columns .banner-block .btn-underlined{color:#EC3237!important;font-weight:700;letter-spacing:.3px;text-decoration:none!important;background:linear-gradient(90deg,#EC3237,#C31F24) no-repeat left bottom;background-size:0 2px;padding-bottom:3px;transition:background-size .4s ease,color .3s}
-#ns-section-banners_two_columns .banner-block:hover .btn-underlined{background-size:100% 2px}
-#ns-section-banners_two_columns .banner-block .btn-underlined::after{content:'\2192';display:inline-block;margin-left:7px;transition:transform .35s cubic-bezier(.22,.61,.36,1)}
-#ns-section-banners_two_columns .banner-block:hover .btn-underlined::after{transform:translateX(6px)}
+   Seletores SEMPRE com prefixo explicito #ns-section-<slug> - fora dos campos
+   do admin nao existe auto-prefixo.
 
-/* bloco-06-vitrine-1.css */
-#ns-section-featured_products .section-featured-home{padding-top:10px}
-#ns-section-featured_products .heading-block{font-weight:700}
-#ns-section-featured_products .js-products-list-slider-container .grid{display:flex;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;gap:1.2%;padding:14px 6px 26px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
-#ns-section-featured_products .js-products-list-slider-container .grid .product-item{flex:0 0 18.8%;min-width:0;scroll-snap-align:start}
-#ns-section-featured_products .js-products-list-slider-container .grid::-webkit-scrollbar{height:6px}
-#ns-section-featured_products .js-products-list-slider-container .grid::-webkit-scrollbar-track{background:rgba(62,64,149,.14);border-radius:10px}
-#ns-section-featured_products .js-products-list-slider-container .grid::-webkit-scrollbar-thumb{background:linear-gradient(90deg,#3E4095,#EC3237);border-radius:10px}
+   Identidade: indigo #3E4095 / vermelho #EC3237 / noite #23255E / noir #0F1029
+   gelo #F3F4F9 / tinta #1C1E36 - display Chakra Petch, corpo Exo 2.
+   Assinatura: "pulso de fibra" (linha indigo->vermelho com ponto de luz).
+   ========================================================================== */
 
-/* bloco-07-categorias-pills.css */
-#ns-section-featured_categories_pills .category-list-pill .category-item-link{display:inline-block;border:1.5px solid #3E4095;border-radius:40px;padding:9px 20px;transition:all .3s;cursor:pointer}
-#ns-section-featured_categories_pills .category-list-pill .category-item-text{color:#3E4095;font-weight:600;font-family:'Chakra Petch',sans-serif;letter-spacing:.3px}
-#ns-section-featured_categories_pills .category-list-pill .category-item-link:hover{background:linear-gradient(135deg,#3E4095,#23255E);border-color:transparent;box-shadow:0 10px 22px -10px rgba(62,64,149,.5)}
-#ns-section-featured_categories_pills .category-list-pill .category-item-link:hover .category-item-text{color:#fff}
-#ns-section-featured_categories_pills .heading-column .heading-block{color:#1C1E36}
-#ns-section-featured_categories_pills .category-list-pill .swiper-wrapper{justify-content:safe center}
+:root {
+  --dg-indigo: #3E4095;
+  --dg-indigo-lt: #6A6CC9;
+  --dg-red: #EC3237;
+  --dg-night: #23255E;
+  --dg-noir: #0F1029;
+  --dg-ice: #F3F4F9;
+  --dg-ink: #1C1E36;
+  --dg-display: 'Chakra Petch', system-ui, sans-serif;
+}
 
-/* bloco-08-banner-full.css */
-#ns-section-banners_one_column .banner-block{margin:0;border-radius:0;overflow:hidden;box-shadow:none}
-#ns-section-banners_one_column .media-visual{position:relative}
-#ns-section-banners_one_column .media-visual::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(15,16,41,.05) 30%,rgba(15,16,41,.68) 100%);pointer-events:none}
-#ns-section-banners_one_column .media-content-floating{z-index:2}
-#ns-section-banners_one_column .media-content-floating .heading-block{color:#fff;text-shadow:0 3px 22px rgba(15,16,41,.6);font-weight:700}
-#ns-section-banners_one_column .media-content-floating .text-content{color:#F3F4F9;text-shadow:0 2px 12px rgba(15,16,41,.65)}
-#ns-section-banners_one_column .banner-image-container img{width:100%;max-height:550px;object-fit:cover;transition:transform 6s ease}
-#ns-section-banners_one_column .banner-block:hover .banner-image-container img{transform:scale(1.05)}
+/* ==========================================================================
+   1. BARRA DE PROGRESSO DE LEITURA - a fibra acompanhando a navegacao
+   ========================================================================== */
 
-/* bloco-09-vitrine-2.css */
-#ns-section-featured_products_2 .section-featured-home{background:#F3F4F9;border-radius:28px;margin:10px 14px;padding:28px 10px 36px}
-#ns-section-featured_products_2 .heading-block{font-weight:700}
-#ns-section-featured_products_2 .js-products-list-slider-container .grid{display:flex;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;gap:1.2%;padding:14px 6px 26px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
-#ns-section-featured_products_2 .js-products-list-slider-container .grid .product-item{flex:0 0 18.8%;min-width:0;scroll-snap-align:start}
-#ns-section-featured_products_2 .js-products-list-slider-container .grid::-webkit-scrollbar{height:6px}
-#ns-section-featured_products_2 .js-products-list-slider-container .grid::-webkit-scrollbar-track{background:rgba(62,64,149,.14);border-radius:10px}
-#ns-section-featured_products_2 .js-products-list-slider-container .grid::-webkit-scrollbar-thumb{background:linear-gradient(90deg,#3E4095,#EC3237);border-radius:10px}
+#dg-prog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  z-index: 100000;               /* header do tema = 1000 */
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--dg-noir) 0%, var(--dg-indigo) 22%, var(--dg-indigo-lt) 58%, var(--dg-red) 100%);
+  box-shadow: 0 0 12px rgba(236, 50, 55, .45), 0 1px 6px rgba(15, 16, 41, .5);
+  pointer-events: none;
+  will-change: transform;
+  contain: strict;
+}
 
-/* bloco-10-newsletter.css */
-#ns-section-newsletter .newsletter-section{position:relative;overflow:hidden;margin:26px 14px;border-radius:22px;background-image:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1px),linear-gradient(130deg,#23255E,#3E4095 70%,#4B4EAE);background-size:22px 22px,auto}
-#ns-section-newsletter .newsletter-section::before{content:'@';position:absolute;right:-16px;top:-64px;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:230px;line-height:1;color:rgba(236,50,55,.16);pointer-events:none}
-#ns-section-newsletter .newsletter-section .heading-block{color:#fff;font-weight:700}
-#ns-section-newsletter .newsletter-section .text-content{color:#E7E8F6}
-#ns-section-newsletter .newsletter-form-input{border-radius:40px 0 0 40px;border:1px solid rgba(255,255,255,.5)!important;background:rgba(255,255,255,.12);color:#fff!important;padding-left:18px}
-#ns-section-newsletter .newsletter-form-input::placeholder{color:rgba(255,255,255,.78)}
-#ns-section-newsletter .newsletter-form-button{border-radius:0 40px 40px 0;background:#EC3237!important;color:#fff!important;border:0!important;font-weight:700;letter-spacing:.4px;transition:background .3s}
-#ns-section-newsletter .newsletter-form-button:hover{background:#C9262B!important}
-#ns-section-newsletter .media-content-center{position:relative;z-index:2;padding:44px 20px}
+/* ==========================================================================
+   2. TICKER DE CATALOGO - faixa vazada logo apos o hero
+   ========================================================================== */
 
-/* bloco-11-faq.css */
-#ns-section-faq .image-block img{border-radius:20px;box-shadow:0 22px 50px -26px rgba(35,37,94,.45)}
-#ns-section-faq .faq-group .accordion-container{border-bottom:1px solid #E3E5F0;transition:background .3s}
-#ns-section-faq .faq-group .accordion-container:hover{background:#F8F9FD}
-#ns-section-faq .faq-group button{font-weight:600;color:#1C1E36}
-#ns-section-faq .faq-group button:hover{color:#3E4095}
-#ns-section-faq .faq-group svg{fill:#EC3237}
+.dg-ticker {
+  position: relative;
+  overflow: hidden;
+  padding: 16px 0 18px;
+  background: linear-gradient(90deg, var(--dg-noir) 0%, #171840 50%, var(--dg-noir) 100%);
+  /* NAO usar pointer-events:none aqui - mataria a pausa no :hover.
+     A faixa nao tem link nenhum, entao capturar o mouse e inofensivo. */
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+}
 
-/* bloco-12-icones.css */
-#ns-section-icon_text .icon-text-item{align-items:center}
-#ns-section-icon_text .icon-text-item-icon{width:46px!important;min-width:46px!important;height:46px;border-radius:50%;background:rgba(62,64,149,.1);display:flex;align-items:center;justify-content:center;transition:background .3s,transform .3s}
-#ns-section-icon_text .icon-text-item:hover .icon-text-item-icon{background:rgba(236,50,55,.12);transform:translateY(-3px)}
-#ns-section-icon_text .icon-text-item-icon svg{fill:#3E4095;color:#3E4095}
-#ns-section-icon_text .icon-text-item-title{font-family:'Chakra Petch',sans-serif;font-weight:600;color:#1C1E36;letter-spacing:.3px}
-#ns-section-icon_text .icon-text-item-description{color:#5A5D7D}
+.dg-ticker::before,
+.dg-ticker::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(62, 64, 149, 0), rgba(62, 64, 149, .55) 30%, rgba(236, 50, 55, .5) 50%, rgba(62, 64, 149, .55) 70%, rgba(62, 64, 149, 0));
+}
 
-/* bloco-13-rodape.css */
-#ns-section-footer .js-hide-footer-while-scrolling{background:linear-gradient(180deg,#0F1029,#171840)}
-#ns-section-footer .js-hide-footer-while-scrolling::before{content:'';display:block;height:2px;background:linear-gradient(90deg,#3E4095,#EC3237 55%,#3E4095)}
-#ns-section-footer .footer-content{color:#C9CCF0;padding-top:34px}
-#ns-section-footer .footer-content a{color:#F3F4F9;transition:color .3s}
-#ns-section-footer .footer-content a:hover{color:#EC3237}
-#ns-section-footer .footer-institutional-description{color:#C9CCF0}
-#ns-section-footer .footer-social-link{display:inline-flex;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.18);align-items:center;justify-content:center;transition:all .3s}
-#ns-section-footer .footer-social-link svg{fill:#fff;transition:fill .3s}
-#ns-section-footer .footer-social-link:hover{border-color:#EC3237;transform:translateY(-3px)}
-#ns-section-footer .footer-social-link:hover svg{fill:#EC3237}
-#ns-section-footer .footer-menu-accordion,#ns-section-footer .footer-menu-accordion button,#ns-section-footer .footer-menu-accordion span{color:#F3F4F9;font-weight:600}
-#ns-section-footer .footer-menu-accordion svg{fill:#F3F4F9}
-#ns-section-footer .footer-menu-accordion .accordion-title,#ns-section-footer .footer-menu-toggle-title,#ns-section-footer .footer-menu-accordion-content{background:transparent;color:#F3F4F9}
-#ns-section-footer .footer-menu-toggle-title::before,#ns-section-footer .footer-menu-toggle-title::after{background:transparent}
-#ns-section-footer .footer-newsletter-container input{border-radius:40px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;padding-left:16px}
-#ns-section-footer .footer-newsletter-container input::placeholder{color:rgba(255,255,255,.7)}
-#ns-section-footer .footer-newsletter-container button{border-radius:40px;background:#EC3237;color:#fff;border:0;font-weight:700}
-#ns-section-footer .footer-legal-container{border-top:1px solid rgba(255,255,255,.09);color:#8A8DB0;margin-top:22px;padding-top:14px;text-align:center}
-#ns-section-footer .footer-legal-container a{color:#8A8DB0}
-#ns-section-footer .footer-legal-container>div>div{display:flex;flex-direction:column;align-items:center;gap:8px}
-#ns-section-footer .truthcommerce-inline{display:inline-flex;align-items:center;justify-content:center;gap:6px}
-#ns-section-footer .footer-powered-by .powered-by-logo,#ns-section-footer .truthcommerce-inline .powered-by-logo,#ns-section-footer .truthcommerce-sep{display:none!important}
-#ns-section-footer .footer-powered-by,#ns-section-footer .footer-copyright{display:block;width:100%;text-align:center}
+.dg-ticker::before { top: 0; }
+.dg-ticker::after  { bottom: 0; }
 
+.dg-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: dgTicker 42s linear infinite;
+  will-change: transform;
+}
+
+.dg-ticker:hover .dg-ticker-track { animation-play-state: paused; }
+
+.dg-ticker-set {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.6vw, 40px);
+  padding-right: clamp(18px, 2.6vw, 40px);
+  font-family: var(--dg-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(26px, 4vw, 52px);
+  line-height: 1.15;
+  letter-spacing: clamp(1px, .22vw, 3px);
+  white-space: nowrap;
+}
+
+.dg-ticker-set span {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(106, 108, 201, .85);
+  text-stroke: 1px rgba(106, 108, 201, .85);
+}
+
+.dg-ticker-set em {
+  font-style: normal;
+  color: var(--dg-red);
+  -webkit-text-stroke: 0;
+  text-shadow: 0 0 16px rgba(236, 50, 55, .45);
+}
+
+@keyframes dgTicker {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+/* ==========================================================================
+   3. TILT 3D NOS CARDS DE PRODUTO
+   O transform vem inline (JS) e ja INCLUI o translateY(-6px) do hover dos
+   campos, entao nao ha briga de cascata (inline > regra :hover sem !important).
+   Esta classe so encurta a transicao enquanto o cursor esta sobre o card.
+   ========================================================================== */
+
+.product-item.dg-tilt {
+  transition: transform .12s ease-out, box-shadow .35s, border-color .35s;
+  will-change: transform;
+}
+
+/* ==========================================================================
+   4. PARTICULAS DE LUZ NO HERO - atmosfera, nao chuva
+   ========================================================================== */
+
+#ns-section-slideshow .dg-sparks {
+  position: absolute;
+  inset: 0;
+  z-index: 1;                    /* acima da imagem, abaixo do .media-content-floating (z:2) */
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+}
+
+#ns-section-slideshow .dg-sparks i {
+  position: absolute;
+  bottom: -6%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(106, 108, 201, .45);
+  filter: blur(1px);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: dgFloat 15s linear infinite;
+}
+
+#ns-section-slideshow .dg-sparks i:nth-child(3n+1) {
+  background: rgba(236, 50, 55, .5);
+  box-shadow: 0 0 10px rgba(236, 50, 55, .35);
+}
+
+#ns-section-slideshow .dg-sparks i:nth-child(1)  { left: 5%;  animation-duration: 16s; animation-delay: -1s;  }
+#ns-section-slideshow .dg-sparks i:nth-child(2)  { left: 14%; animation-duration: 21s; animation-delay: -7s;  width: 4px; height: 4px; }
+#ns-section-slideshow .dg-sparks i:nth-child(3)  { left: 23%; animation-duration: 18s; animation-delay: -12s; }
+#ns-section-slideshow .dg-sparks i:nth-child(4)  { left: 31%; animation-duration: 24s; animation-delay: -4s;  width: 8px; height: 8px; }
+#ns-section-slideshow .dg-sparks i:nth-child(5)  { left: 40%; animation-duration: 17s; animation-delay: -15s; }
+#ns-section-slideshow .dg-sparks i:nth-child(6)  { left: 48%; animation-duration: 22s; animation-delay: -9s;  width: 4px; height: 4px; }
+#ns-section-slideshow .dg-sparks i:nth-child(7)  { left: 57%; animation-duration: 19s; animation-delay: -2s;  }
+#ns-section-slideshow .dg-sparks i:nth-child(8)  { left: 65%; animation-duration: 25s; animation-delay: -17s; width: 7px; height: 7px; }
+#ns-section-slideshow .dg-sparks i:nth-child(9)  { left: 74%; animation-duration: 16s; animation-delay: -6s;  }
+#ns-section-slideshow .dg-sparks i:nth-child(10) { left: 82%; animation-duration: 23s; animation-delay: -11s; width: 4px; height: 4px; }
+#ns-section-slideshow .dg-sparks i:nth-child(11) { left: 90%; animation-duration: 20s; animation-delay: -3s;  }
+#ns-section-slideshow .dg-sparks i:nth-child(12) { left: 96%; animation-duration: 26s; animation-delay: -14s; }
+
+@keyframes dgFloat {
+  0%   { transform: translate3d(0, 0, 0) scale(.7);            opacity: 0; }
+  12%  {                                                        opacity: 1; }
+  35%  { transform: translate3d(18px, -32vh, 0) scale(1);      }
+  65%  { transform: translate3d(-14px, -62vh, 0) scale(.9);    }
+  88%  {                                                        opacity: .85; }
+  100% { transform: translate3d(10px, -105vh, 0) scale(.6);    opacity: 0; }
+}
+
+/* ==========================================================================
+   5. DIVISOR DE CIRCUITO ENTRE SECOES
+   ========================================================================== */
+
+.dg-circuit {
+  position: relative;
+  height: 42px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* trilha */
+.dg-circuit::before {
+  content: '';
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(62, 64, 149, 0), rgba(62, 64, 149, .3) 16%, rgba(62, 64, 149, .3) 84%, rgba(62, 64, 149, 0));
+}
+
+/* no losango preenchido */
+.dg-circuit::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  transform: rotate(45deg);
+  background: linear-gradient(135deg, var(--dg-indigo), var(--dg-red));
+}
+
+/* no losango vazado (anel) */
+.dg-circuit b {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 15px;
+  height: 15px;
+  margin: -7.5px 0 0 -7.5px;
+  transform: rotate(45deg);
+  border: 1px solid rgba(62, 64, 149, .42);
+  animation: dgNode 3.6s ease-in-out infinite;
+}
+
+/* pulso de luz viajando */
+.dg-circuit i {
+  position: absolute;
+  left: 6%;
+  top: 50%;
+  margin-top: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dg-red);
+  box-shadow: 0 0 12px 3px rgba(236, 50, 55, .5);
+  will-change: transform, opacity;
+  animation: dgTravel 6.5s cubic-bezier(.5, 0, .3, 1) infinite;
+}
+
+@keyframes dgTravel {
+  0%   { transform: translate3d(0, 0, 0);      opacity: 0; }
+  8%   {                                        opacity: 1; }
+  50%  { transform: translate3d(44vw, 0, 0);   opacity: 1; }
+  92%  {                                        opacity: 1; }
+  100% { transform: translate3d(88vw, 0, 0);   opacity: 0; }
+}
+
+@keyframes dgNode {
+  0%, 100% { transform: rotate(45deg) scale(1);    opacity: .65; }
+  50%      { transform: rotate(45deg) scale(1.22); opacity: 1; }
+}
+
+/* ==========================================================================
+   6. NEWSLETTER "SINAL" - onda senoidal atravessando o fundo indigo
+   (o ::before da secao ja e o "@" gigante dos campos - aqui usamos ::after)
+   ========================================================================== */
+
+#ns-section-newsletter .newsletter-section::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  margin-top: -30px;
+  width: calc(100% + 240px);
+  height: 60px;
+  z-index: 1;
+  pointer-events: none;
+  opacity: .75;
+  background-repeat: repeat-x;
+  background-size: 240px 60px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='60' viewBox='0 0 240 60'%3E%3Cpath d='M0 30 Q 30 2 60 30 T 120 30 T 180 30 T 240 30' fill='none' stroke='rgba(255,255,255,0.16)' stroke-width='2'/%3E%3C/svg%3E");
+  will-change: transform;
+  animation: dgWave 14s linear infinite;
+}
+
+@keyframes dgWave {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-240px, 0, 0); }
+}
+
+/* input com glow pulsante quando focado */
+#ns-section-newsletter .newsletter-form-input:focus,
+#ns-section-newsletter .newsletter-form-input:focus-visible {
+  outline: none;
+  animation: dgGlow 2.2s ease-in-out infinite;
+}
+
+@keyframes dgGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(236, 50, 55, .0), inset 0 0 0 1px rgba(255, 255, 255, .35); }
+  50%      { box-shadow: 0 0 18px 2px rgba(236, 50, 55, .38), inset 0 0 0 1px rgba(255, 255, 255, .7); }
+}
+
+/* ==========================================================================
+   7. WATERMARK "DIGITAL" NO RODAPE
+   .js-hide-footer-while-scrolling vira contexto de empilhamento (z-index:0)
+   para que o z-index:-1 do watermark fique ACIMA do fundo e ABAIXO do texto.
+   ========================================================================== */
+
+#ns-section-footer .js-hide-footer-while-scrolling {
+  position: relative;
+  z-index: 0;
+}
+
+#ns-section-footer .footer-content {
+  position: relative;
+}
+
+#ns-section-footer .footer-content::before {
+  content: 'DIGITAL';
+  position: absolute;
+  left: 50%;
+  bottom: -4%;
+  transform: translateX(-50%);
+  z-index: -1;
+  font-family: var(--dg-display);
+  font-weight: 700;
+  font-size: clamp(90px, 19vw, 300px);
+  line-height: .8;
+  letter-spacing: clamp(2px, 1vw, 16px);
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, .06);
+  text-stroke: 2px rgba(255, 255, 255, .06);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ==========================================================================
+   8. ICONES - micro-bounce ao entrar na viewport (a classe .dg-in ja e
+   aplicada pelo IntersectionObserver existente no skin.js)
+   ========================================================================== */
+
+#ns-section-icon_text .icon-text-item.dg-in .icon-text-item-icon {
+  animation: dgBounce .9s cubic-bezier(.34, 1.56, .64, 1) .18s both;
+}
+
+#ns-section-icon_text .icon-text-item.dg-in .icon-text-item-icon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(236, 50, 55, .45);
+  animation: dgRing 1.5s ease-out .5s 2 both;
+  pointer-events: none;
+}
+
+#ns-section-icon_text .icon-text-item-icon { position: relative; }
+
+@keyframes dgBounce {
+  0%   { transform: translateY(10px) scale(.6); opacity: .2; }
+  55%  { transform: translateY(-6px) scale(1.14); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes dgRing {
+  0%   { transform: scale(.8); opacity: .9; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+
+/* ==========================================================================
+   9. CTA DO HERO - glow respirando no slide ativo
+   ========================================================================== */
+
+#ns-section-slideshow .swiper-slide-active .media-content-floating .btn-primary {
+  animation: dgBreath 3.2s ease-in-out infinite;
+}
+
+#ns-section-slideshow .swiper-slide-active .media-content-floating .btn-primary:hover {
+  animation: none;
+}
+
+@keyframes dgBreath {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(236, 50, 55, .0), 0 10px 26px -14px rgba(15, 16, 41, .8); }
+  50%      { box-shadow: 0 0 26px 2px rgba(236, 50, 55, .42), 0 10px 26px -14px rgba(15, 16, 41, .8); }
+}
+
+/* ==========================================================================
+   10. SCROLLBAR DO SITE (webkit) - trilho noir, polegar indigo->vermelho
+   Largura NAO e alterada de proposito: mexer nela reflui a pagina inteira
+   quando a skin chega tarde.
+   ========================================================================== */
+
+html::-webkit-scrollbar-track {
+  background: var(--dg-noir);
+}
+
+html::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--dg-indigo), var(--dg-red));
+  border-radius: 10px;
+  border: 3px solid var(--dg-noir);
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--dg-indigo-lt), var(--dg-red));
+}
+
+/* scrollbar-color e HERDADA: sem o reset no body ela vazaria para as vitrines
+   horizontais e mataria o polegar em gradiente definido pelos campos. */
+html { scrollbar-color: var(--dg-indigo) var(--dg-noir); }
+body { scrollbar-color: auto; }
+
+/* ==========================================================================
+   MOBILE - particulas e tilt DESLIGADOS (o JS tambem nao os injeta/liga)
+   ========================================================================== */
+
+@media (max-width: 1024px), (hover: none), (pointer: coarse) {
+  #ns-section-slideshow .dg-sparks { display: none !important; }
+  .product-item.dg-tilt { transition: transform .35s, box-shadow .35s, border-color .35s; }
+}
+
+@media (max-width: 767px) {
+  .dg-ticker { padding: 11px 0 12px; }
+  .dg-ticker-set { font-size: clamp(20px, 7vw, 30px); }
+  .dg-circuit { height: 30px; }
+  #ns-section-footer .footer-content::before { bottom: 1%; opacity: .8; }
+  #dg-prog { height: 2px; }
+}
+
+/* ==========================================================================
+   ACESSIBILIDADE - prefers-reduced-motion desliga TUDO
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .dg-ticker-track,
+  .dg-circuit i,
+  .dg-circuit b,
+  #ns-section-slideshow .dg-sparks i,
+  #ns-section-newsletter .newsletter-section::after,
+  #ns-section-newsletter .newsletter-form-input:focus,
+  #ns-section-icon_text .icon-text-item.dg-in .icon-text-item-icon,
+  #ns-section-icon_text .icon-text-item.dg-in .icon-text-item-icon::after,
+  #ns-section-slideshow .swiper-slide-active .media-content-floating .btn-primary {
+    animation: none !important;
+  }
+
+  #ns-section-slideshow .dg-sparks,
+  #dg-prog,
+  #ns-section-icon_text .icon-text-item.dg-in .icon-text-item-icon::after {
+    display: none !important;
+  }
+
+  .product-item.dg-tilt { transition: none !important; }
+}

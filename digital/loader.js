@@ -1,14 +1,14 @@
-// ESTE arquivo NAO vai no repo por necessidade — e a referencia do que se cola
-// no campo "JavaScript personalizado" do tema na Nuvemshop (unico codigo no admin).
-// Trocar V para invalidar o cache do jsDelivr apos cada push.
+// ESTE arquivo e a REFERENCIA do que fica colado no campo "JavaScript
+// personalizado" do tema (unico codigo no admin). Versao diaria = cache do
+// navegador renovado a cada dia; push no repo propaga em ate ~12-24h sozinho.
 (function () {
-  var V = '1';
+  var v = new Date().toISOString().slice(0, 10);
   var B = 'https://cdn.jsdelivr.net/gh/Kirschmf/nuvemshop-skins@main/digital/';
   var l = document.createElement('link');
   l.rel = 'stylesheet';
-  l.href = B + 'skin.css?v=' + V;
+  l.href = B + 'skin.css?v=' + v;
   document.head.appendChild(l);
   var s = document.createElement('script');
-  s.src = B + 'skin.js?v=' + V;
+  s.src = B + 'skin.js?v=' + v;
   document.head.appendChild(s);
 })();

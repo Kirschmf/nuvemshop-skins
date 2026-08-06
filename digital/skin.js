@@ -1,3 +1,16 @@
+/* ==========================================================================
+   Digital Informatica - SKIN v4 "premium layer" (CDN / jsDelivr)
+   --------------------------------------------------------------------------
+   Camada de comportamento. A base visual vem dos CAMPOS do tema (bloco-01..13).
+   Aqui: fontes, style#dg-v4 (herdado do bloco-02), reveal por IntersectionObserver,
+   pulso de fibra, digitacao do hero, botao voltar-ao-topo + as features novas:
+   barra de progresso, ticker de catalogo, particulas do hero, divisores de
+   circuito e tilt 3D nos cards.
+
+   ENHANCE ONLY: a skin chega tarde (loader no rodape). Nada aqui remove,
+   redimensiona ou reposiciona conteudo estatico ja pintado.
+   O CSS estatico das features novas mora no skin.css (sem limite/sanitizador).
+   ========================================================================== */
 (function () {
   if (window.__dgV4) return; window.__dgV4 = 1;
   var d = document;
@@ -50,6 +63,12 @@
   st.textContent = css;
   d.head.appendChild(st);
 
+  /* ---------------------------------------------------------------- flags */
+  function mq(q) { return window.matchMedia ? window.matchMedia(q) : { matches: false }; }
+  var REDUCED = mq('(prefers-reduced-motion:reduce)').matches;
+  var FINE = mq('(hover:hover) and (pointer:fine)');
+  function isDesktop() { return FINE.matches && window.innerWidth > 1024; }
+
   var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) {
     es.forEach(function (e) {
       if (e.isIntersecting) { e.target.classList.add('dg-in'); io.unobserve(e.target); }
@@ -80,6 +99,9 @@
         h.appendChild(s);
       }
     }
+    ticker();
+    sparks();
+    circuits();
   }
 
   function typeHero() {
@@ -101,14 +123,158 @@
     }, 42);
   }
 
+  /* ============================================================ 1. PROGRESSO
+     Linha de 3px no topo da viewport crescendo com o scroll (scaleX). */
+  var progEl = null, progRaf = 0;
+  function progressBar() {
+    if (REDUCED || d.getElementById('dg-prog')) return;
+    progEl = d.createElement('div');
+    progEl.id = 'dg-prog';
+    progEl.setAttribute('aria-hidden', 'true');
+    d.body.appendChild(progEl);
+  }
+  function progressPaint() {
+    progRaf = 0;
+    if (!progEl) return;
+    var de = d.documentElement;
+    var max = (de.scrollHeight || 0) - window.innerHeight;
+    var p = max > 0 ? (window.scrollY || de.scrollTop) / max : 0;
+    if (p < 0) p = 0; if (p > 1) p = 1;
+    progEl.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+  }
+  function progressTick() {
+    if (progEl && !progRaf) progRaf = requestAnimationFrame(progressPaint);
+  }
+
+  /* ============================================================== 2. TICKER
+     Faixa vazada apos o hero: palavras do catalogo separadas por "@". */
+  /* escapes unicode: imunes a qualquer charset que o CDN devolva */
+  var WORDS = ['MONITORES', 'PERIFÉRICOS', 'SSDs', 'REDES', 'ASSISTÊNCIA', 'FIBRA'];
+  function tickerSet() {
+    var set = d.createElement('div');
+    set.className = 'dg-ticker-set';
+    for (var i = 0; i < WORDS.length; i++) {
+      var w = d.createElement('span');
+      w.textContent = WORDS[i];
+      set.appendChild(w);
+      var at = d.createElement('em');
+      at.textContent = '@';
+      set.appendChild(at);
+    }
+    return set;
+  }
+  function ticker() {
+    if (d.querySelector('.dg-ticker')) return;
+    var slideshow = d.getElementById('ns-section-slideshow');
+    if (!slideshow || !slideshow.parentNode) return;
+    var box = d.createElement('div');
+    box.className = 'dg-ticker';
+    box.setAttribute('aria-hidden', 'true');
+    var track = d.createElement('div');
+    track.className = 'dg-ticker-track';
+    track.appendChild(tickerSet());
+    track.appendChild(tickerSet());   /* duplicado -> loop em -50% */
+    box.appendChild(track);
+    slideshow.parentNode.insertBefore(box, slideshow.nextSibling);
+  }
+
+  /* ============================================================ 4. PARTICULAS
+     8-12 pontos de luz subindo no hero. Desktop apenas. */
+  function sparks() {
+    if (REDUCED || !isDesktop()) return;
+    var cont = d.querySelector('#ns-section-slideshow .js-slideshow-container');
+    if (!cont || cont.querySelector('.dg-sparks')) return;
+    var box = d.createElement('div');
+    box.className = 'dg-sparks';
+    box.setAttribute('aria-hidden', 'true');
+    for (var i = 0; i < 12; i++) box.appendChild(d.createElement('i'));
+    cont.appendChild(box);
+  }
+
+  /* ============================================================= 5. CIRCUITO
+     Divisor com no losango e pulso viajando, antes das secoes-chave. */
+  var CIRCUIT_BEFORE = ['ns-section-newsletter', 'ns-section-faq', 'ns-section-icon_text'];
+  function circuits() {
+    for (var i = 0; i < CIRCUIT_BEFORE.length; i++) {
+      var sec = d.getElementById(CIRCUIT_BEFORE[i]);
+      if (!sec || !sec.parentNode) continue;
+      var prev = sec.previousElementSibling;
+      if (prev && prev.classList && prev.classList.contains('dg-circuit')) continue;
+      var c = d.createElement('div');
+      c.className = 'dg-circuit';
+      c.setAttribute('aria-hidden', 'true');
+      c.appendChild(d.createElement('b'));
+      c.appendChild(d.createElement('i'));
+      sec.parentNode.insertBefore(c, sec);
+    }
+  }
+
+  /* ================================================================ 3. TILT
+     Tilt 3D nos cards de produto.
+     DECISAO: o transform e aplicado INLINE no proprio .product-item e ja
+     inclui o translateY(-6px) do hover dos campos. Estilo inline vence a
+     regra `.product-item:hover` (que nao usa !important), entao nao ha briga
+     de cascata nem necessidade de sobrescrever os campos. No mouseleave o
+     inline e limpo e a transicao de .35s dos campos devolve o card ao lugar.
+     Delegacao no document => imune ao re-render dos cards pelo nubesdk. */
+  var tiltEl = null, tiltRaf = 0, tiltX = 0, tiltY = 0;
+  var TILT_MAX = 8; /* graus totais: +-4 */
+
+  function tiltApply() {
+    tiltRaf = 0;
+    var c = tiltEl;
+    if (!c) return;
+    var r = c.getBoundingClientRect();
+    if (!r.width || !r.height) return;
+    var px = (tiltX - r.left) / r.width - 0.5;
+    var py = (tiltY - r.top) / r.height - 0.5;
+    /* o card "se inclina na direcao do cursor": rotateX segue py, rotateY
+       leva sinal invertido para que o lado apontado venha para frente. */
+    c.style.transform = 'perspective(800px) rotateX(' + (py * TILT_MAX).toFixed(2) +
+      'deg) rotateY(' + (-px * TILT_MAX).toFixed(2) + 'deg) translateY(-6px)';
+  }
+
+  function tiltReset(c) {
+    if (!c) return;
+    c.classList.remove('dg-tilt');
+    c.style.transform = '';
+  }
+
+  function tiltMove(e) {
+    var t = e.target;
+    var card = (t && t.closest) ? t.closest('.product-item') : null;
+    if (card !== tiltEl) {
+      tiltReset(tiltEl);
+      tiltEl = card;
+      if (card) card.classList.add('dg-tilt');
+    }
+    if (!card) return;
+    tiltX = e.clientX;
+    tiltY = e.clientY;
+    if (!tiltRaf) tiltRaf = requestAnimationFrame(tiltApply);
+  }
+
+  function tiltOff() { tiltReset(tiltEl); tiltEl = null; }
+
+  function tiltInit() {
+    if (REDUCED || !isDesktop()) return;
+    d.addEventListener('mousemove', tiltMove, { passive: true });
+    d.addEventListener('mouseleave', tiltOff, { passive: true });
+    window.addEventListener('blur', tiltOff, { passive: true });
+    window.addEventListener('scroll', tiltOff, { passive: true });
+  }
+
+  /* --------------------------------------------------------------- scroll */
   function onScroll() {
     var y = window.scrollY || d.documentElement.scrollTop;
     var hd = d.querySelector('header.js-header');
     if (hd) { hd.classList.toggle('dg-scrolled', y > 24); }
     var t = d.getElementById('dgTop');
     if (t) { t.classList.toggle('dg-on', y > 620); }
+    progressTick();
   }
   window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', progressTick, { passive: true });
 
   function boot() {
     if (!d.getElementById('dgTop')) {
@@ -120,6 +286,8 @@
       b.onclick = function () { window.scrollTo({ top: 0, behavior: 'smooth' }); };
       d.body.appendChild(b);
     }
+    progressBar();
+    tiltInit();
     scan();
     onScroll();
     var n = 0;
@@ -132,5 +300,5 @@
     setInterval(typeHero, 1000);
   }
   if (d.readyState === 'loading') { d.addEventListener('DOMContentLoaded', boot); } else { boot(); }
-  window.addEventListener('load', function () { scan(); typeHero(); });
+  window.addEventListener('load', function () { scan(); typeHero(); progressTick(); });
 })();
