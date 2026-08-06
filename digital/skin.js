@@ -303,6 +303,48 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', function () { progressTick(); arrows(); }, { passive: true });
 
+  /* ------------------------------------------------ landing "Digital Net" */
+  /* A pagina institucional aceita so HTML: o dono cola <div class="dg-net"></div>
+     e esta funcao constroi a landing inteira dentro dela. Planos editaveis aqui. */
+  var WAPP = '5564981440024';
+  var NET_PLANS = [
+    { mb: '200', pr: '79,90', pop: false, ft: ['Wi-Fi incluso', 'Instalação profissional', 'Suporte local em Catalão'] },
+    { mb: '400', pr: '99,90', pop: true, ft: ['Wi-Fi incluso', 'Instalação profissional', 'Suporte local em Catalão'] },
+    { mb: '600', pr: '129,90', pop: false, ft: ['Wi-Fi incluso', 'Instalação profissional', 'Suporte prioritário'] }
+  ];
+  function waLink(msg) {
+    return 'https://wa.me/' + WAPP + '?text=' + encodeURIComponent(msg);
+  }
+  function netPage() {
+    var host = d.querySelector('.dg-net, .div-que-carrega-o-loader');
+    if (!host || host.getAttribute('data-dg-net')) return;
+    host.setAttribute('data-dg-net', '1');
+    var h = '';
+    h += '<section class="dgn-hero"><span class="dgn-eyebrow">Digital Net · Catalão-GO</span>';
+    h += '<h2>Internet de fibra que não te deixa na mão</h2>';
+    h += '<p>Banda larga da Digital para sua casa e sua empresa — instalação profissional e suporte de quem está na sua cidade.</p>';
+    h += '<a class="dgn-wa dgn-wa-lg" target="_blank" rel="noopener" href="' + waLink('Olá! Quero consultar a cobertura da Digital Net no meu endereço.') + '">Consultar cobertura no WhatsApp</a>';
+    h += '<span class="dg-fiber" aria-hidden="true"><i></i></span></section>';
+    h += '<div class="dgn-plans">';
+    for (var i = 0; i < NET_PLANS.length; i++) {
+      var p = NET_PLANS[i];
+      h += '<div class="dgn-plan' + (p.pop ? ' dgn-pop' : '') + '">';
+      if (p.pop) h += '<span class="dgn-badge">Mais escolhido</span>';
+      h += '<div class="dgn-mb">' + p.mb + '<small>MEGA</small></div>';
+      h += '<div class="dgn-pr"><small>R$</small>' + p.pr + '<small>/mês</small></div><ul>';
+      for (var j = 0; j < p.ft.length; j++) h += '<li>' + p.ft[j] + '</li>';
+      h += '</ul><a class="dgn-wa" target="_blank" rel="noopener" href="' + waLink('Olá! Quero assinar o plano de ' + p.mb + ' MEGA da Digital Net.') + '">Assinar pelo WhatsApp</a></div>';
+    }
+    h += '</div>';
+    h += '<div class="dgn-perks">';
+    var perks = [['Suporte na sua cidade', 'Equipe própria em Catalão-GO'], ['Instalação profissional', 'Agendada direto pelo WhatsApp'], ['Wi-Fi de qualidade', 'Equipamento configurado para sua casa'], ['Atendimento rápido', '(64) 98144-0024']];
+    for (var k = 0; k < perks.length; k++) h += '<div class="dgn-perk"><strong>' + perks[k][0] + '</strong><span>' + perks[k][1] + '</span></div>';
+    h += '</div>';
+    h += '<section class="dgn-cta"><h3>Ainda com dúvida?</h3><p>Chama a gente no WhatsApp que a equipe te ajuda a escolher o plano certo.</p>';
+    h += '<a class="dgn-wa dgn-wa-lg" target="_blank" rel="noopener" href="' + waLink('Olá! Quero saber mais sobre os planos da Digital Net.') + '">Falar com a Digital agora</a></section>';
+    host.innerHTML = h;
+  }
+
   function boot() {
     if (!d.getElementById('dgTop')) {
       var b = d.createElement('button');
@@ -319,10 +361,12 @@
     scan();
     onScroll();
     var n = 0;
+    netPage();
     var iv = setInterval(function () {
       n++;
       scan();
       typeHero();
+      netPage();
       if (n > 6) clearInterval(iv);
     }, 1200);
     setInterval(typeHero, 1000);
