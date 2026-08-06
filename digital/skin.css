@@ -54,75 +54,70 @@
 }
 
 /* ==========================================================================
-   2. TICKER DE CATALOGO - faixa vazada logo apos o hero
+   2. SETAS DAS VITRINES DE PRODUTO
+   O elemento rolavel e o proprio `.grid` (flex + overflow-x:auto). O
+   ancoradouro e `.js-products-list-slider-container`, que ja e
+   position:relative pelo tema e tem o grid como unico filho - por isso as
+   setas cabem nele sem deslocar nada (ENHANCE ONLY respeitado).
+   A scrollbar do tema (6px) continua visivel: as setas sao um atalho, nao
+   substituto. Centro vertical alinhado a faixa dos cards, nao do container
+   (o grid tem 26px de padding-bottom para a scrollbar).
    ========================================================================== */
 
-.dg-ticker {
+#ns-section-featured_products .js-products-list-slider-container,
+#ns-section-featured_products_2 .js-products-list-slider-container {
   position: relative;
-  overflow: hidden;
-  padding: 16px 0 18px;
-  background: linear-gradient(90deg, var(--dg-noir) 0%, #171840 50%, var(--dg-noir) 100%);
-  /* NAO usar pointer-events:none aqui - mataria a pausa no :hover.
-     A faixa nao tem link nenhum, entao capturar o mouse e inofensivo. */
-  user-select: none;
-  -webkit-user-select: none;
-  cursor: default;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
-  mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
 }
 
-.dg-ticker::before,
-.dg-ticker::after {
-  content: '';
+.dg-arrow {
   position: absolute;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(62, 64, 149, 0), rgba(62, 64, 149, .55) 30%, rgba(236, 50, 55, .5) 50%, rgba(62, 64, 149, .55) 70%, rgba(62, 64, 149, 0));
+  top: calc(50% - 22px);
+  z-index: 5;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 50%;
+  /* .28 (alvo original) some sobre o fundo BRANCO da vitrine: com o icone
+     branco por cima o botao vira um borrao cinza. .52 mantem o ar discreto
+     e ainda deixa a foto do produto atravessar. */
+  background: rgba(15, 16, 41, .52);
+  -webkit-backdrop-filter: blur(6px) saturate(120%);
+  backdrop-filter: blur(6px) saturate(120%);
+  color: #fff;
+  cursor: pointer;
+  opacity: .82;
+  transform: translateY(-50%);
+  box-shadow: 0 6px 18px -8px rgba(15, 16, 41, .55);
+  transition: background .28s, opacity .28s, transform .18s, box-shadow .28s, visibility .28s;
 }
 
-.dg-ticker::before { top: 0; }
-.dg-ticker::after  { bottom: 0; }
-
-.dg-ticker-track {
-  display: flex;
-  width: max-content;
-  animation: dgTicker 42s linear infinite;
-  will-change: transform;
+.dg-arrow svg {
+  width: 17px;
+  height: 17px;
+  display: block;
+  fill: none;
 }
 
-.dg-ticker:hover .dg-ticker-track { animation-play-state: paused; }
+.dg-arrow-prev { left: 6px; }
+.dg-arrow-next { right: 6px; }
 
-.dg-ticker-set {
-  display: flex;
-  align-items: center;
-  gap: clamp(18px, 2.6vw, 40px);
-  padding-right: clamp(18px, 2.6vw, 40px);
-  font-family: var(--dg-display);
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: clamp(26px, 4vw, 52px);
-  line-height: 1.15;
-  letter-spacing: clamp(1px, .22vw, 3px);
-  white-space: nowrap;
+.dg-arrow:hover {
+  background: var(--dg-indigo);
+  border-color: rgba(255, 255, 255, .26);
+  opacity: 1;
+  box-shadow: 0 10px 24px -10px rgba(62, 64, 149, .8);
 }
 
-.dg-ticker-set span {
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(106, 108, 201, .85);
-  text-stroke: 1px rgba(106, 108, 201, .85);
-}
+.dg-arrow:active { transform: translateY(-50%) scale(.93); }
 
-.dg-ticker-set em {
-  font-style: normal;
-  color: var(--dg-red);
-  -webkit-text-stroke: 0;
-  text-shadow: 0 0 16px rgba(236, 50, 55, .45);
-}
-
-@keyframes dgTicker {
-  from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(-50%, 0, 0); }
+/* extremidade alcancada: some, mas sem reflow (nao usa display) */
+.dg-arrow.dg-off {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 /* ==========================================================================
@@ -135,6 +130,29 @@
 .product-item.dg-tilt {
   transition: transform .12s ease-out, box-shadow .35s, border-color .35s;
   will-change: transform;
+}
+
+/* A IMAGEM do card fica PARADA no hover: o tema troca para a segunda foto do
+   produto e qualquer zoom por cima disso vira sujeira. O zoom nasce no campo
+   bloco-01 (`.product-item:hover ... img{transform:scale(1.06)}`) - ja
+   removido de la, mas o override fica aqui porque o campo publicado na loja
+   so troca no proximo deploy do tema. O lift/sombra/tilt do CARD continuam.
+
+   ARMADILHA MEDIDA NO PREVIEW: nas vitrines da home a img carrega a classe
+   `.img-absolute-centered`, e o TEMA a centraliza com
+   `position:absolute; left:50%; transform:translateX(-50%)`.
+   Um `transform:none` cego ali empurraria a foto meia largura para a
+   direita - e era exatamente isso que o campo `scale(1.06)` ja fazia (a
+   "metade" que o dono viu). Por isso a segunda regra RESTAURA a
+   centralizacao em vez de zerar o transform. */
+.product-item:hover .product-item-image-container img,
+.product-item:focus-within .product-item-image-container img {
+  transform: none !important;
+}
+
+.product-item:hover .product-item-image-container img.img-absolute-centered,
+.product-item:focus-within .product-item-image-container img.img-absolute-centered {
+  transform: translateX(-50%) !important;
 }
 
 /* ==========================================================================
@@ -191,82 +209,6 @@
 }
 
 /* ==========================================================================
-   5. DIVISOR DE CIRCUITO ENTRE SECOES
-   ========================================================================== */
-
-.dg-circuit {
-  position: relative;
-  height: 42px;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-/* trilha */
-.dg-circuit::before {
-  content: '';
-  position: absolute;
-  left: 6%;
-  right: 6%;
-  top: 50%;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(62, 64, 149, 0), rgba(62, 64, 149, .3) 16%, rgba(62, 64, 149, .3) 84%, rgba(62, 64, 149, 0));
-}
-
-/* no losango preenchido */
-.dg-circuit::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 7px;
-  height: 7px;
-  margin: -3.5px 0 0 -3.5px;
-  transform: rotate(45deg);
-  background: linear-gradient(135deg, var(--dg-indigo), var(--dg-red));
-}
-
-/* no losango vazado (anel) */
-.dg-circuit b {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 15px;
-  height: 15px;
-  margin: -7.5px 0 0 -7.5px;
-  transform: rotate(45deg);
-  border: 1px solid rgba(62, 64, 149, .42);
-  animation: dgNode 3.6s ease-in-out infinite;
-}
-
-/* pulso de luz viajando */
-.dg-circuit i {
-  position: absolute;
-  left: 6%;
-  top: 50%;
-  margin-top: -3px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--dg-red);
-  box-shadow: 0 0 12px 3px rgba(236, 50, 55, .5);
-  will-change: transform, opacity;
-  animation: dgTravel 6.5s cubic-bezier(.5, 0, .3, 1) infinite;
-}
-
-@keyframes dgTravel {
-  0%   { transform: translate3d(0, 0, 0);      opacity: 0; }
-  8%   {                                        opacity: 1; }
-  50%  { transform: translate3d(44vw, 0, 0);   opacity: 1; }
-  92%  {                                        opacity: 1; }
-  100% { transform: translate3d(88vw, 0, 0);   opacity: 0; }
-}
-
-@keyframes dgNode {
-  0%, 100% { transform: rotate(45deg) scale(1);    opacity: .65; }
-  50%      { transform: rotate(45deg) scale(1.22); opacity: 1; }
-}
-
-/* ==========================================================================
    6. NEWSLETTER "SINAL" - onda senoidal atravessando o fundo indigo
    (o ::before da secao ja e o "@" gigante dos campos - aqui usamos ::after)
    ========================================================================== */
@@ -317,8 +259,16 @@
   z-index: 0;
 }
 
+/* overflow:hidden E OBRIGATORIO. O ::before abaixo e absoluto com bottom:-4%
+   e uma caixa de texto de ~240px de altura: ele estourava 42.5px ABAIXO do
+   body, inflando o scrollHeight do documento sem inflar o body. Como o
+   background do body e branco (tema), essa sobra aparecia como uma FAIXA
+   BRANCA depois do rodape noir - o bug reportado pelo dono.
+   Medido no preview: scrollHeight 4801 -> 4758 (= altura do body) com esta
+   linha. O watermark continua inteiro na area visivel do rodape. */
 #ns-section-footer .footer-content {
   position: relative;
+  overflow: hidden;
 }
 
 #ns-section-footer .footer-content::before {
@@ -412,8 +362,87 @@ html::-webkit-scrollbar-thumb:hover {
 
 /* scrollbar-color e HERDADA: sem o reset no body ela vazaria para as vitrines
    horizontais e mataria o polegar em gradiente definido pelos campos. */
-html { scrollbar-color: var(--dg-indigo) var(--dg-noir); }
+/* fundo noir no <html>: corta a propagacao do background BRANCO do <body>
+   para a canvas. Rede de seguranca do bug da faixa branca (secao 7) e cor do
+   overscroll/bounce, que no topo e no rodape agora casa com o header/footer. */
+html {
+  scrollbar-color: var(--dg-indigo) var(--dg-noir);
+  background-color: var(--dg-noir);
+}
+
 body { scrollbar-color: auto; }
+
+/* ==========================================================================
+   11. DROPDOWN DE CONTA NO HEADER - painel escuro
+   CAUSA: o painel `.js-header-dropdown-content.desktop-dropdown` nasce
+   branco (background do tema) DENTRO de `.js-header .head-main`, onde o campo
+   bloco-01 pinta TODO `a` de #fff. Resultado: texto branco em fundo branco.
+   Correcao: escurecer o painel em vez de recolorir os links um a um.
+   ========================================================================== */
+
+.js-header .head-main .js-header-dropdown-content.desktop-dropdown {
+  background: rgba(21, 23, 53, .96) !important;
+  border: 1px solid rgba(255, 255, 255, .12) !important;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 6px;
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  backdrop-filter: blur(14px) saturate(130%);
+  box-shadow: 0 22px 46px -18px rgba(0, 0, 0, .85), 0 0 0 1px rgba(15, 16, 41, .5);
+}
+
+.js-header .head-main .js-header-dropdown-content.desktop-dropdown .header-dropdown-link {
+  color: var(--dg-ice) !important;
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-weight: 600;
+  letter-spacing: .3px;
+  white-space: nowrap;
+  transition: background .25s, color .25s, transform .25s;
+}
+
+.js-header .head-main .js-header-dropdown-content.desktop-dropdown .header-dropdown-link:hover {
+  color: #fff !important;
+  background: rgba(236, 50, 55, .16);
+  transform: translateX(2px);
+}
+
+.js-header .head-main .js-header-dropdown-content.desktop-dropdown .header-dropdown-link-featured {
+  color: #fff !important;
+  box-shadow: inset 0 0 0 1px rgba(106, 108, 201, .38);
+}
+
+.js-header .head-main .js-header-dropdown-content.desktop-dropdown .header-dropdown-link-featured:hover {
+  background: linear-gradient(135deg, var(--dg-indigo), var(--dg-red));
+  box-shadow: inset 0 0 0 1px transparent;
+}
+
+/* ==========================================================================
+   12. HALO DOS ICONES DO HEADER - um por icone, nunca empilhado
+   CAUSA: o campo bloco-01 aplica o halo `::before` (40x40, radial vermelho)
+   em TODO `.header-icon` e `.header-utility`, e no tema esses elementos sao
+   ANINHADOS:
+     conta   -> span.header-utility > a.header-icon                (2 halos)
+     carrinho-> span.header-utility > button.header-utility
+                                    > span.header-icon             (3 halos)
+   Hover no filho acende os ancestrais tambem: 2-3 gradientes somados viram um
+   bloco vermelho denso e opaco - a "caixa" do print. Aqui o halo dos
+   DESCENDENTES e desligado; sobra exatamente um, no elemento externo.
+   ========================================================================== */
+
+.head-main .header-icon .header-icon::before,
+.head-main .header-icon .header-utility::before,
+.head-main .header-utility .header-icon::before,
+.head-main .header-utility .header-utility::before {
+  content: none !important;
+}
+
+/* o halo remanescente precisa nascer de um retangulo quadrado: os wrappers
+   tem 20x21 e o ::before ja e 40x40 centrado, entao so garantimos o circulo */
+.head-main .header-icon::before,
+.head-main .header-utility::before {
+  border-radius: 50% !important;
+}
 
 /* ==========================================================================
    MOBILE - particulas e tilt DESLIGADOS (o JS tambem nao os injeta/liga)
@@ -425,11 +454,14 @@ body { scrollbar-color: auto; }
 }
 
 @media (max-width: 767px) {
-  .dg-ticker { padding: 11px 0 12px; }
-  .dg-ticker-set { font-size: clamp(20px, 7vw, 30px); }
-  .dg-circuit { height: 30px; }
   #ns-section-footer .footer-content::before { bottom: 1%; opacity: .8; }
   #dg-prog { height: 2px; }
+
+  /* setas menores e mais coladas na borda no celular */
+  .dg-arrow { width: 30px; height: 30px; top: calc(50% - 18px); opacity: .9; }
+  .dg-arrow svg { width: 14px; height: 14px; }
+  .dg-arrow-prev { left: 2px; }
+  .dg-arrow-next { right: 2px; }
 }
 
 /* ==========================================================================
@@ -437,9 +469,6 @@ body { scrollbar-color: auto; }
    ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
-  .dg-ticker-track,
-  .dg-circuit i,
-  .dg-circuit b,
   #ns-section-slideshow .dg-sparks i,
   #ns-section-newsletter .newsletter-section::after,
   #ns-section-newsletter .newsletter-form-input:focus,
@@ -456,4 +485,13 @@ body { scrollbar-color: auto; }
   }
 
   .product-item.dg-tilt { transition: none !important; }
+}
+
+/* Fix: no mobile o flex 18.8% do campo vence o 46% do style#dg-v4 (especificidade).
+   Cards de 64px ficavam inutilizaveis. Correcao de bug, nao de layout. */
+@media (max-width: 767px) {
+  #ns-section-featured_products .js-products-list-slider-container .grid .product-item,
+  #ns-section-featured_products_2 .js-products-list-slider-container .grid .product-item {
+    flex: 0 0 46% !important;
+  }
 }

@@ -4,8 +4,8 @@
    Camada de comportamento. A base visual vem dos CAMPOS do tema (bloco-01..13).
    Aqui: fontes, style#dg-v4 (herdado do bloco-02), reveal por IntersectionObserver,
    pulso de fibra, digitacao do hero, botao voltar-ao-topo + as features novas:
-   barra de progresso, ticker de catalogo, particulas do hero, divisores de
-   circuito e tilt 3D nos cards.
+   barra de progresso, setas das vitrines, particulas do hero e tilt 3D
+   nos cards.
 
    ENHANCE ONLY: a skin chega tarde (loader no rodape). Nada aqui remove,
    redimensiona ou reposiciona conteudo estatico ja pintado.
@@ -24,7 +24,6 @@
     + '@keyframes dgSweep{0%{left:-6%;opacity:0}8%{opacity:1}92%{opacity:1}100%{left:102%;opacity:0}}'
     + '@keyframes dgPulse{0%{box-shadow:0 0 0 0 rgba(236,50,55,.45)}70%{box-shadow:0 0 0 10px rgba(236,50,55,0)}100%{box-shadow:0 0 0 0 rgba(236,50,55,0)}}'
     + '@keyframes dgBlink{0%,49%{opacity:1}50%,100%{opacity:0}}'
-    + '@keyframes dgShine{0%{transform:translateX(-130%) skewX(-18deg)}100%{transform:translateX(240%) skewX(-18deg)}}'
     + '@keyframes dgShift{0%{background-position:0 0}100%{background-position:220% 0}}'
     + '@keyframes dgDrop{from{transform:translateY(-16px);opacity:0}to{transform:translateY(0);opacity:1}}'
     + '.dg-r{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.22,.61,.36,1);transition-delay:var(--dg-d,0ms)}'
@@ -37,8 +36,6 @@
     + 'header.js-header.dg-scrolled .head-main{background:rgba(15,16,41,.92)!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(236,50,55,.35),0 14px 34px -22px rgba(15,16,41,.8)}'
     + '.category-item-image{aspect-ratio:1/1}'
     + '.product-item-image-container{position:relative;overflow:hidden}'
-    + '.product-item-image-container::after{content:"";position:absolute;top:0;bottom:0;left:0;width:46%;background:linear-gradient(105deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.38) 50%,rgba(255,255,255,0) 100%);transform:translateX(-130%) skewX(-18deg);pointer-events:none;z-index:2}'
-    + '.product-item:hover .product-item-image-container::after{animation:dgShine .8s ease forwards}'
     + '#dgTop{position:fixed;right:18px;bottom:18px;z-index:998;width:46px;height:46px;border:0;border-radius:50%;background:linear-gradient(135deg,#3E4095,#23255E);color:#fff;font-size:20px;line-height:1;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(14px);transition:opacity .35s,transform .35s;box-shadow:0 10px 24px -10px rgba(35,37,94,.6)}'
     + '#dgTop.dg-on{opacity:1;pointer-events:auto;transform:translateY(0)}'
     + '#dgTop:hover{animation:dgPulse 1.4s infinite}'
@@ -99,9 +96,8 @@
         h.appendChild(s);
       }
     }
-    ticker();
     sparks();
-    circuits();
+    arrows();
   }
 
   function typeHero() {
@@ -146,36 +142,85 @@
     if (progEl && !progRaf) progRaf = requestAnimationFrame(progressPaint);
   }
 
-  /* ============================================================== 2. TICKER
-     Faixa vazada apos o hero: palavras do catalogo separadas por "@". */
-  /* escapes unicode: imunes a qualquer charset que o CDN devolva */
-  var WORDS = ['MONITORES', 'PERIFÉRICOS', 'SSDs', 'REDES', 'ASSISTÊNCIA', 'FIBRA'];
-  function tickerSet() {
-    var set = d.createElement('div');
-    set.className = 'dg-ticker-set';
-    for (var i = 0; i < WORDS.length; i++) {
-      var w = d.createElement('span');
-      w.textContent = WORDS[i];
-      set.appendChild(w);
-      var at = d.createElement('em');
-      at.textContent = '@';
-      set.appendChild(at);
-    }
-    return set;
+  /* ======================================================= 2. SETAS VITRINE
+     Botoes < > discretos sobre as vitrines de produto. O elemento ROLAVEL e
+     o proprio `.grid` (display:flex + overflow-x:auto); o ancoradouro e o
+     `.js-products-list-slider-container` (position:relative), unico filho-pai
+     do grid. As vitrines re-renderizam pelo nubesdk, entao o estado fica
+     guardado em `cont.__dgArr` e revalidado a cada scan(): se o `.grid` mudou
+     de identidade ou as setas foram varridas do DOM, recria. */
+  var SHELVES = ['ns-section-featured_products', 'ns-section-featured_products_2'];
+
+  function mkArrow(dir) {
+    var b = d.createElement('button');
+    b.type = 'button';
+    b.className = 'dg-arrow dg-arrow-' + dir;
+    b.setAttribute('aria-label', dir === 'prev' ? 'Anterior' : 'Proximo');
+    b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
+      + '<path d="' + (dir === 'prev' ? 'M15 5L8 12l7 7' : 'M9 5l7 7-7 7') + '"'
+      + ' fill="none" stroke="currentColor" stroke-width="2.2"'
+      + ' stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    return b;
   }
-  function ticker() {
-    if (d.querySelector('.dg-ticker')) return;
-    var slideshow = d.getElementById('ns-section-slideshow');
-    if (!slideshow || !slideshow.parentNode) return;
-    var box = d.createElement('div');
-    box.className = 'dg-ticker';
-    box.setAttribute('aria-hidden', 'true');
-    var track = d.createElement('div');
-    track.className = 'dg-ticker-track';
-    track.appendChild(tickerSet());
-    track.appendChild(tickerSet());   /* duplicado -> loop em -50% */
-    box.appendChild(track);
-    slideshow.parentNode.insertBefore(box, slideshow.nextSibling);
+
+  function arrowSync(st) {
+    var g = st.grid;
+    var max = g.scrollWidth - g.clientWidth;
+    st.prev.classList.toggle('dg-off', max <= 6 || g.scrollLeft <= 6);
+    st.next.classList.toggle('dg-off', max <= 6 || g.scrollLeft >= max - 6);
+  }
+
+  function arrowsFor(cont) {
+    var grid = cont.querySelector('.grid');
+    if (!grid) return;
+    var st = cont.__dgArr;
+    if (st && st.grid === grid && st.prev.parentNode === cont && st.next.parentNode === cont) {
+      arrowSync(st);
+      return;
+    }
+    var stray = cont.querySelectorAll('.dg-arrow');
+    for (var i = 0; i < stray.length; i++) stray[i].parentNode.removeChild(stray[i]);
+    var prev = mkArrow('prev');
+    var next = mkArrow('next');
+    cont.appendChild(prev);
+    cont.appendChild(next);
+    st = cont.__dgArr = { grid: grid, prev: prev, next: next };
+    prev.addEventListener('click', function () { arrowGo(st, -1); });
+    next.addEventListener('click', function () { arrowGo(st, 1); });
+    grid.addEventListener('scroll', function () { arrowSync(st); }, { passive: true });
+    arrowSync(st);
+  }
+
+  function arrowGo(st, sign) {
+    var g = st.grid;
+    var step = Math.round(g.clientWidth * 0.8) || 240;
+    g.scrollBy({ left: sign * step, behavior: REDUCED ? 'auto' : 'smooth' });
+  }
+
+  function arrows() {
+    for (var i = 0; i < SHELVES.length; i++) {
+      var sec = d.getElementById(SHELVES[i]);
+      if (!sec) continue;
+      var conts = sec.querySelectorAll('.js-products-list-slider-container');
+      for (var k = 0; k < conts.length; k++) arrowsFor(conts[k]);
+    }
+  }
+
+  /* Os cards chegam pelo nubesdk DEPOIS do HTML estatico, as vezes fora da
+     janela dos 7 ciclos de scan(). Um MutationObserver nas duas secoes (que
+     existem no HTML inicial) cobre tanto a chegada tardia quanto o
+     re-render. Debounce curto porque o nubesdk pinta em rajada. */
+  var arrObs = null, arrT = 0;
+  function arrowsWatch() {
+    if (arrObs || !('MutationObserver' in window)) return;
+    arrObs = new MutationObserver(function () {
+      clearTimeout(arrT);
+      arrT = setTimeout(arrows, 160);
+    });
+    for (var i = 0; i < SHELVES.length; i++) {
+      var sec = d.getElementById(SHELVES[i]);
+      if (sec) arrObs.observe(sec, { childList: true, subtree: true });
+    }
   }
 
   /* ============================================================ 4. PARTICULAS
@@ -189,24 +234,6 @@
     box.setAttribute('aria-hidden', 'true');
     for (var i = 0; i < 12; i++) box.appendChild(d.createElement('i'));
     cont.appendChild(box);
-  }
-
-  /* ============================================================= 5. CIRCUITO
-     Divisor com no losango e pulso viajando, antes das secoes-chave. */
-  var CIRCUIT_BEFORE = ['ns-section-newsletter', 'ns-section-faq', 'ns-section-icon_text'];
-  function circuits() {
-    for (var i = 0; i < CIRCUIT_BEFORE.length; i++) {
-      var sec = d.getElementById(CIRCUIT_BEFORE[i]);
-      if (!sec || !sec.parentNode) continue;
-      var prev = sec.previousElementSibling;
-      if (prev && prev.classList && prev.classList.contains('dg-circuit')) continue;
-      var c = d.createElement('div');
-      c.className = 'dg-circuit';
-      c.setAttribute('aria-hidden', 'true');
-      c.appendChild(d.createElement('b'));
-      c.appendChild(d.createElement('i'));
-      sec.parentNode.insertBefore(c, sec);
-    }
   }
 
   /* ================================================================ 3. TILT
@@ -274,7 +301,7 @@
     progressTick();
   }
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', progressTick, { passive: true });
+  window.addEventListener('resize', function () { progressTick(); arrows(); }, { passive: true });
 
   function boot() {
     if (!d.getElementById('dgTop')) {
@@ -288,6 +315,7 @@
     }
     progressBar();
     tiltInit();
+    arrowsWatch();
     scan();
     onScroll();
     var n = 0;
