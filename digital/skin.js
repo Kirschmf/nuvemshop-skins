@@ -319,6 +319,7 @@
     var host = d.querySelector('.dg-net, .div-que-carrega-o-loader');
     if (!host || host.getAttribute('data-dg-net')) return;
     host.setAttribute('data-dg-net', '1');
+    if (host.querySelector('.dgn-plans')) return; /* HTML estatico colado na pagina vence */
     if (!d.getElementById('dg-net-css')) {
       var nl = d.createElement('link');
       nl.id = 'dg-net-css';
