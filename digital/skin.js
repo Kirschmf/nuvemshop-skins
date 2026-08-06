@@ -319,7 +319,8 @@
     var host = d.querySelector('.dg-net, .div-que-carrega-o-loader');
     if (!host || host.getAttribute('data-dg-net')) return;
     host.setAttribute('data-dg-net', '1');
-    if (host.querySelector('.dgn-plans')) return; /* HTML estatico colado na pagina vence */
+    /* o editor da Nuvemshop remove <link>/<section> do HTML colado: o JS injeta
+       o CSS e SEMPRE reconstroi a landing completa (o estatico e so fallback) */
     if (!d.getElementById('dg-net-css')) {
       var nl = d.createElement('link');
       nl.id = 'dg-net-css';
