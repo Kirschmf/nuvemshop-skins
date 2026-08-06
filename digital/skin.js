@@ -319,6 +319,13 @@
     var host = d.querySelector('.dg-net, .div-que-carrega-o-loader');
     if (!host || host.getAttribute('data-dg-net')) return;
     host.setAttribute('data-dg-net', '1');
+    if (!d.getElementById('dg-net-css')) {
+      var nl = d.createElement('link');
+      nl.id = 'dg-net-css';
+      nl.rel = 'stylesheet';
+      nl.href = 'https://cdn.jsdelivr.net/gh/Kirschmf/nuvemshop-skins@main/digital/net.css?v=' + new Date().toISOString().slice(0, 10);
+      d.head.appendChild(nl);
+    }
     var h = '';
     h += '<section class="dgn-hero"><span class="dgn-eyebrow">Digital Net · Catalão-GO</span>';
     h += '<h2>Internet de fibra que não te deixa na mão</h2>';
